@@ -1,11 +1,12 @@
-Particle [] galaxy = new Particle [750];
+Particle [] galaxy = new Particle [760];
 void setup()
 {
  size(1000,1000);
- for (int i=1;i<galaxy.length;i++)
+ for (int i=2;i<galaxy.length;i++)
  {
  	galaxy[i] = new NormalParticle();
  }
+ galaxy[1] = new jumboParticle();
  galaxy[0] = new OddballParticle();
 }
 void draw()
@@ -14,11 +15,13 @@ void draw()
  stroke(220,0,0);
  strokeWeight(2);
  rect(0,0,999,1000);
- for (int i = 1 ; i<galaxy.length; i ++)
+ for (int i = 2 ; i<galaxy.length; i ++)
  {
  galaxy[i].move();
  galaxy[i].show();
  }
+ galaxy[1].move();
+ galaxy[1].show();
  galaxy[0].move();
  galaxy[0].show();
 }
@@ -45,7 +48,6 @@ class NormalParticle implements Particle
  	nparticleX = 500;
   	speedPX = 2;
  	speedPY = 2;
- 	//angleP = (Math.random()*2*Math.PI);
   }
   if(speedPX < 10)
   {
@@ -63,6 +65,37 @@ class NormalParticle implements Particle
    noStroke();
    ellipse((int)nparticleX,(int)nparticleY,(int)(speedPX*1.5)+2,(int)(speedPX*1.5)+2);
  }
+}
+class jumboParticle extends NormalParticle
+{
+    public void move()
+    {
+  	 nparticleX = nparticleX + (Math.cos(angleP))*speedPX;
+  	 nparticleY = nparticleY + (Math.sin(angleP))*speedPY;
+  	 if((nparticleX > 1000 || nparticleX < 0) || (nparticleY < 0 || nparticleY > 1000) )
+  	 {
+ 	 nparticleY = 500;
+ 	 nparticleX = 500;
+  	 speedPX = 2;
+ 	 speedPY = 2;
+ 	 angleP = (Math.random()*2*Math.PI);
+  	 }
+  	 if(speedPX < 10)
+   	 {
+  	
+  	 speedPX = speedPX + 0.5;
+   	 }
+  	 if(speedPY < 10 )
+   	 {
+  	 speedPY = speedPY + 0.5;
+   	 }
+ 	}
+	public void show()
+	{
+		fill(0,220,0,150);
+		noStroke();
+        ellipse((int)nparticleX,(int)nparticleY,(int)(speedPX*2)+15,(int)(speedPX*2)+15);
+	}
 }
 interface Particle
 {
@@ -94,8 +127,8 @@ class OddballParticle implements Particle
 	{
      fill(220,00,20,190);
      noStroke();
-     ellipse((int)oddX,(int)oddY,15,15);
-     ellipse((int)oddX2,(int)oddY2,15,15);
+     ellipse((int)oddX,(int)oddY,18,18);
+     ellipse((int)oddX2,(int)oddY2,18,18);
 	}
 }
 
